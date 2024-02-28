@@ -8,17 +8,17 @@ This plugin will let you choose your character from lobby.
 Install this plugin on your Phone/PC  or on Server
 
 If installed on server :- this will also let players choose server specific custom characters . so no more sharing of character file with all players,
-just install this plugin on server ...and players can pick character from lobby .
+just install this plugin on server ...and players can pick character from lobby . 
 
 Use:-
 > select your profile (focus on color and name)
 > press ready (punch)
 > now use UP/DOWN buttons to scroll character list
-> Press ready again (punch) to join the game
+> Press ready again (punch) to join the game 
 > or press Bomb button to go back to profile choosing menu
-> END
+> END 
 
-Watch   : https://www.youtube.com/watch?v=hNmv2l-NahE
+Watch   : https://www.youtube.com/watch?v=hNmv2l-NahE   
 Join    : https://discord.gg/ucyaesh
 Contact : discord mr.smoothy#5824
 
@@ -29,19 +29,27 @@ Share this plugin with your server owner /admins  to use it online
 
 '''
 
+
 from __future__ import annotations
 
-import _babase
 from typing import TYPE_CHECKING
 
 import babase
 import bauiv1 as bui
-from babase._error import print_error
+import bascenev1 as bs
+import _babase
+from bascenev1lib.actor.playerspaz import PlayerSpaz
+
+
+from babase._error import print_exception, print_error, NotFoundError
+
 from babase._language import Lstr
 
 if TYPE_CHECKING:
-    from typing import Any, List, Dict, Union, Sequence, Optional
+    from typing import Any, Type, List, Dict, Tuple, Union, Sequence, Optional
 import weakref
+import os
+import json
 from bascenev1._lobby import ChangeMessage, PlayerReadyMessage
 from bascenev1 import _lobby
 from bascenev1lib.actor.spazappearance import *
@@ -70,10 +78,8 @@ def __init__(self, vpos: float, sessionplayer: bs.SessionPlayer,
 
     app = babase.app
 
-    self.bakwas_chars = ["Lee", "Todd McBurton", "Zola", "Butch", "Witch",
-                         "warrior",
-                         "Middle-Man", "Alien", "OldLady", "Gladiator",
-                         "Wrestler", "Gretel", "Robot"]
+    self.bakwas_chars = ["Lee", "Todd McBurton", "Zola", "Butch", "Witch", "warrior",
+                         "Middle-Man", "Alien", "OldLady", "Gladiator", "Wrestler", "Gretel", "Robot"]
 
     # Load available player profiles either from the local config or
     # from the remote device.
@@ -146,6 +152,7 @@ def __init__(self, vpos: float, sessionplayer: bs.SessionPlayer,
 
 
 def _set_ready(self, ready: bool) -> None:
+
     # pylint: disable=cyclic-import
     from bauiv1lib.profile import browser as pbrowser
     from babase._general import Call
@@ -192,18 +199,14 @@ def _set_ready(self, ready: bool) -> None:
              babase.InputType.JUMP_PRESS, babase.InputType.BOMB_PRESS,
              babase.InputType.PICK_UP_PRESS), self._do_nothing)
         self._sessionplayer.assigninput(
-            (babase.InputType.UP_PRESS),
-            Call(self.handlemessage, ChangeMessage('characterchooser', -1)))
+            (babase.InputType.UP_PRESS), Call(self.handlemessage, ChangeMessage('characterchooser', -1)))
         self._sessionplayer.assigninput(
-            (babase.InputType.DOWN_PRESS),
-            Call(self.handlemessage, ChangeMessage('characterchooser', 1)))
+            (babase.InputType.DOWN_PRESS), Call(self.handlemessage, ChangeMessage('characterchooser', 1)))
         self._sessionplayer.assigninput(
-            (babase.InputType.BOMB_PRESS),
-            Call(self.handlemessage, ChangeMessage('ready', 0)))
+            (babase.InputType.BOMB_PRESS), Call(self.handlemessage, ChangeMessage('ready', 0)))
 
         self._sessionplayer.assigninput(
-            (babase.InputType.JUMP_PRESS, babase.InputType.PICK_UP_PRESS,
-             babase.InputType.PUNCH_PRESS),
+            (babase.InputType.JUMP_PRESS, babase.InputType.PICK_UP_PRESS, babase.InputType.PUNCH_PRESS),
             Call(self.handlemessage, ChangeMessage('ready', 2)))
 
         # Store the last profile picked by this input for reuse.
@@ -311,8 +314,7 @@ def _update_text(self) -> None:
         if self.characterchooser:
             text = Lstr(value='${A}\n${B}',
                         subs=[('${A}', text),
-                              ('${B}', Lstr(value="" + self._character_names[
-                                  self._character_index]))])
+                              ('${B}', Lstr(value=""+self._character_names[self._character_index]))])
             self._text_node.scale = 0.8
         else:
             text = Lstr(value='${A} (${B})',
@@ -325,7 +327,7 @@ def _update_text(self) -> None:
     can_switch_teams = len(self.lobby.sessionteams) > 1
 
     # Flash as we're coming in.
-    fin_color = _babase.safecolor(self.get_color()) + (1,)
+    fin_color = _babase.safecolor(self.get_color()) + (1, )
     if not self._inited:
         bs.animate_array(self._text_node, 'color', 4, {
             0.15: fin_color,
@@ -345,11 +347,14 @@ def _update_text(self) -> None:
 
     self._text_node.text = text
 
-
 # ba_meta export plugin
-def enable():
-    _lobby.Chooser.__init__ = __init__
-    _lobby.Chooser._set_ready = _set_ready
 
-    _lobby.Chooser._update_text = _update_text
-    _lobby.Chooser.handlemessage = handlemessage
+
+class HeySmoothy(babase.Plugin):
+
+    def __init__(self):
+        _lobby.Chooser.__init__ = __init__
+        _lobby.Chooser._set_ready = _set_ready
+
+        _lobby.Chooser._update_text = _update_text
+        _lobby.Chooser.handlemessage = handlemessage
