@@ -1,6 +1,6 @@
-# Bombsquad-Ballistica-Modded-Server
+# Bombsquad-xD-Server
 
-Modded server scripts to host ballistica (Bombsquad) server. Running on BS1.7.26
+Modded server scripts to host ballistica (Bombsquad) server. Running on xD 1.0
 
 # Prerequisites
 - Basic knowledge of Linux
