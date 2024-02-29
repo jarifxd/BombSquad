@@ -3,13 +3,13 @@
   "ChatCommands": {
     "BrodcastCommand": true
   },
-  "HostDeviceName": "v1.4",
+  "HostDeviceName": "xD",
   "HostName": "CRAFT xD",
   "KickVoteMsgType": "chat",
   "ScoreScreenAnnouncement": {
     "enable": true,
     "msg": [
-      "click stats button to join our discord",
+      "click stats button to visit our Website",
       "watch hey Jarif_xD youtube channel",
       "downlaod new mods from discord"
     ]
@@ -157,7 +157,7 @@
   "sameCharacterForTeam": false,
   "statsResetAfterDays": 31,
   "textonmap": {
-    "bottom left watermark": "Owner : JARIF xD \nAdmin : SAIF xD\nScripts : xD 1.0",
+    "bottom left watermark": "Owner : JARIF xD \nAdmin : SAIF xD\nServer : craftepic.us.to",
     "center highlights": {
       "color": [
         1,
@@ -168,7 +168,7 @@
         "type end to start end vote",
         "start msg with prefix .(dot) to send in game popup msg",
         "start msg with prefix ,(comma) to send msg to teammates",
-        " Thank for join CRAFT EPIC FUN WORLD Server"
+        " Thanks for join CRAFT EPIC FUN WORLD Server"
       ],
       "randomColor": true
     },
